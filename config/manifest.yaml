@@ -1,0 +1,62 @@
+# This is the primary manifest file of the project.
+
+# Protocols:
+# - file://<path>
+# - cargo://<path>?target=<target>&features=<features>&profile=<profile>
+# - zig://<path>?optimize=<opt_level>
+
+qemu:
+  machine:
+    type: q35
+    accel:
+    - name: tcg
+
+  #cpu:
+  #  type: host
+  #  cpus: 1
+
+  memory:
+    size: 4GiB
+
+  drives:
+  # BIOS
+  - interface: pflash
+    format: raw
+    file: "file://target/OVMF_CODE.fd"
+    readonly: true
+
+  - interface: pflash
+    format: raw
+    file: "file://target/OVMF_VARS.fd"
+  
+  # Boot disk
+  - interface: none
+    format: raw
+    file: "file://target/disk.img"
+
+  serial: stdio
+
+  extra_args: [ "-d", "int", "-no-reboot" ]
+
+disk:
+  id: B643058F-E0AA-4CD6-A880-7A9630B99135
+  format: raw
+
+  table: gpt
+  size: 128MiB
+
+  partitions:
+  - id: 73CFA755-4D56-4590-A9D1-E6CE96D1DBB1
+    type: C12A7328-F81F-11D2-BA4B-00A0C93EC93B
+    name: EFI System Partition
+    flags: [ boot, esp ]
+    size: 127MiB
+    filesystem: fat32
+    files:
+      "/EFI/BOOT/BOOTAA64.EFI":            "file://third_party/limine/BOOTAA64.EFI"
+      "/EFI/BOOT/BOOTIA32.EFI":            "file://third_party/limine/BOOTIA32.EFI"
+      "/EFI/BOOT/BOOTRISCV64.EFI":         "file://third_party/limine/BOOTRISCV64.EFI"
+      "/EFI/BOOT/BOOTX64.EFI":             "file://third_party/limine/BOOTX64.EFI"
+      "/LIMINE.CFG":                       "file://config/boot/limine.cfg"
+
+      "/SYSTEM/KERNEL.ELF":                "cargo://kernel?target=x86_64-unknown-none&profile=release"

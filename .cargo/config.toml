@@ -1,0 +1,4 @@
+[alias]
+xtask = "run --manifest-path ./xtask/Cargo.toml --release --"
+xbuild = "xtask build"
+xrun = "xtask run"

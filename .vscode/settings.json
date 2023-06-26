@@ -1,0 +1,13 @@
+{
+    // Non-preview rust-analyzer
+    "rust-analyzer.checkOnSave.allTargets": false,
+
+    // Preview rust-analyzer
+    "rust-analyzer.check.allTargets": false,
+    
+    // ---
+    "rust-analyzer.linkedProjects": [
+        "kernel/Cargo.toml",
+        "xtask/Cargo.toml",
+    ]
+}

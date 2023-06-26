@@ -34,9 +34,13 @@ qemu:
     format: raw
     file: "file://target/disk.img"
 
-  serial: stdio
+  serial: file:target/serial.log
 
-  extra_args: [ "-d", "int", "-no-reboot" ]
+  extra_args: [
+    "-d", "int",
+    "-no-reboot",
+    "-monitor", "mon:stdio",
+  ]
 
 disk:
   id: B643058F-E0AA-4CD6-A880-7A9630B99135

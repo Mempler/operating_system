@@ -5,6 +5,9 @@
 #![deny(missing_docs)]
 #![no_std]
 #![no_main]
+#![feature(abi_x86_interrupt)]
+#![feature(asm_const)]
+#![allow(unused)]
 
 use core::arch::asm;
 
@@ -14,19 +17,20 @@ mod arch;
 #[macro_use]
 extern crate log;
 
-#[allow(unused_imports)]
 #[macro_use]
 extern crate klogger;
 
-#[allow(unused_imports)]
 #[macro_use]
 extern crate alloc;
+
+extern crate static_assertions as sa;
 
 #[no_mangle]
 unsafe extern "C" fn _start() -> ! {
     klogger::init("trace", 0x3F8).unwrap();
 
     arch::x86_64::gdt::init();
+    arch::x86_64::idt::init();
 
     allocator::init();
 

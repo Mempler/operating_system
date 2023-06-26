@@ -7,6 +7,8 @@ use x86::{
     Ring,
 };
 
+use super::idt;
+
 static mut GDT: [Descriptor; 8] = [Descriptor::NULL; 8];
 
 pub unsafe fn init() {
@@ -47,6 +49,8 @@ pub unsafe fn init() {
     GDT[3] = code_user;
     GDT[4] = data_user;
 
+    idt::disable();
+
     let gdt_ptr = DescriptorTablePointer::new(&GDT);
     lgdt(&gdt_ptr);
 
@@ -60,4 +64,6 @@ pub unsafe fn init() {
     load_gs(data_segment);
 
     load_cs(code_segment);
+
+    idt::enable();
 }

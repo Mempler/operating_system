@@ -1,7 +1,7 @@
 # A yet to be named Operating System
 
-![https://matrix.to/#/#osdev-general:peerstudios.net](https://img.shields.io/matrix/osdev-general%3Apeerstudios.net?server_fqdn=matrix.peerstudios.net&logo=matrix&label=Chat%20with%20us!&color=red)
-![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/mempler/operating_system/rust.yml)
+[![Matrix](https://img.shields.io/matrix/osdev-general%3Apeerstudios.net?server_fqdn=matrix.peerstudios.net&logo=matrix&label=Chat%20with%20us!&color=red)](https://matrix.to/#/#osdev-general:peerstudios.net)
+[![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/mempler/operating_system/rust.yml)](https://github.com/Mempler/operating_system/actions/workflows/rust.yml)
 
 **NOTE: This project is still in early development and is not ready for use.**
 

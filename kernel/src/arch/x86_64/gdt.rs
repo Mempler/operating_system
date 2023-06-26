@@ -1,5 +1,3 @@
-use core::arch::asm;
-
 use x86::{
     dtables::{lgdt, DescriptorTablePointer},
     segmentation::{

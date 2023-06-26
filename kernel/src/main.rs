@@ -29,9 +29,13 @@ fn pre_init() {
     klogger::init("trace", 0x3F8).unwrap();
 }
 
-fn main() -> ! {
+fn bsp_main() -> ! {
     allocator::init();
 
+    arch::hcf();
+}
+
+fn ap_main() -> ! {
     arch::hcf();
 }
 

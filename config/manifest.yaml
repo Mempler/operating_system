@@ -11,9 +11,9 @@ qemu:
     accel:
     - name: tcg
 
-  #cpu:
-  #  type: host
-  #  cpus: 1
+  cpu:
+    type: ''
+    cpus: 4
 
   memory:
     size: 4GiB
@@ -34,7 +34,7 @@ qemu:
     format: raw
     file: "file://target/disk.img"
 
-  serial: file:target/serial.log
+  serial: tcp:127.0.0.1:8800,server
 
   extra_args: [
     "-d", "int",

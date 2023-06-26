@@ -32,7 +32,7 @@ extern "C" fn bsp_start() -> ! {
 
     info!("CPU - 0 (BSP) started");
 
-    crate::main();
+    crate::bsp_main();
 }
 
 #[no_mangle]
@@ -44,7 +44,8 @@ extern "C" fn ap_start(info: *const LimineSmpInfo) -> ! {
     }
 
     info!("CPU - {} (AP) started", info.processor_id);
-    hcf();
+
+    crate::ap_main();
 }
 
 pub fn hcf() -> ! {

@@ -25,28 +25,17 @@ extern crate alloc;
 
 extern crate static_assertions as sa;
 
-#[no_mangle]
-unsafe extern "C" fn _start() -> ! {
+fn pre_init() {
     klogger::init("trace", 0x3F8).unwrap();
+}
 
-    arch::x86_64::gdt::init();
-    arch::x86_64::idt::init();
-
+fn main() -> ! {
     allocator::init();
 
-    hcf();
+    arch::hcf();
 }
 
 #[panic_handler]
 fn rust_panic(_info: &core::panic::PanicInfo) -> ! {
-    hcf();
-}
-
-fn hcf() -> ! {
-    unsafe {
-        asm!("cli");
-        loop {
-            asm!("hlt");
-        }
-    }
+    arch::hcf();
 }

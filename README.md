@@ -5,11 +5,6 @@
 This is a hobby project of mine to create a simple operating system from scratch. \
 The goal is to create a simple operating system that can be used to run simple programs. \
 
-Development is done in the `develop` branch and the `main` branch is used for releases. \
-The `develop` branch is merged into `main` when a new release is ready.
-
-[See git-flow for more information](https://nvie.com/posts/a-successful-git-branching-model/)
-
 ## Table of Contents
 
 - [A yet to be named Operating System](#a-yet-to-be-named-operating-system)

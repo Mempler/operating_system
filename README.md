@@ -3,7 +3,7 @@
 **NOTE: This project is still in early development and is not ready for use.**
 
 This is a hobby project of mine to create a simple operating system from scratch. \
-The goal is to create a simple operating system that can be used to run simple programs. \
+The goal is to create a simple operating system that can be used to run simple programs.
 
 ## Table of Contents
 

@@ -35,16 +35,16 @@ pub(super) fn init() {
 }
 
 #[global_allocator]
-static mut HEAP: Heap = Heap::new();
+pub static mut HEAP: Heap = Heap::new();
 
-struct Heap {
+pub struct Heap {
     // FIXME: Use a more sophisticated allocator.
     //        a bump allocator is really simple but also huge memory leaks
     //        since we cannot reclaim memory
 
     // FIXME: given that rust is more optimized for a slab allocator, we should
     //        probably use that instead
-    allocator: Option<BumpAllocator>,
+    pub allocator: Option<BumpAllocator>,
 }
 
 impl Heap {
@@ -74,4 +74,12 @@ unsafe impl GlobalAlloc for Heap {
     unsafe fn dealloc(&self, _ptr: *mut u8, _layout: Layout) {
         // bump allocator does not support dealloc
     }
+}
+
+pub unsafe fn allocate_pages(count: usize) -> PAddr {
+    HEAP.allocator.as_mut().unwrap().alloc(count).unwrap()
+}
+
+pub unsafe fn deallocate_pages(addr: PAddr, count: usize) {
+    unimplemented!("deallocate_pages")
 }

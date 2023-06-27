@@ -9,7 +9,7 @@
 #![feature(asm_const)]
 #![allow(unused)]
 
-use core::arch::asm;
+use core::{arch::asm, panic::PanicInfo};
 
 mod allocator;
 mod arch;
@@ -23,15 +23,15 @@ extern crate klogger;
 #[macro_use]
 extern crate alloc;
 
+#[macro_use]
+extern crate bitflags;
+
+#[macro_use]
+extern crate lazy_static;
+
 extern crate static_assertions as sa;
 
-fn pre_init() {
-    klogger::init("trace", 0x3F8).unwrap();
-}
-
 fn bsp_main() -> ! {
-    allocator::init();
-
     arch::hcf();
 }
 
@@ -40,6 +40,7 @@ fn ap_main() -> ! {
 }
 
 #[panic_handler]
-fn rust_panic(_info: &core::panic::PanicInfo) -> ! {
+fn rust_panic(info: &PanicInfo) -> ! {
+    error!("Kernel panic: {}", info);
     arch::hcf();
 }

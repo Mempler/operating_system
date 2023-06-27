@@ -20,13 +20,14 @@ pub unsafe fn init() {
         .l()
         .finish();
 
-    let data_kernel = DescriptorBuilder::data_descriptor(0, 0xFFFFF, DataSegmentType::ReadWrite)
-        .present()
-        .dpl(Ring::Ring0)
-        .limit_granularity_4kb()
-        .db()
-        .l()
-        .finish();
+    let data_kernel =
+        DescriptorBuilder::data_descriptor(0, 0xFFFFF, DataSegmentType::ReadWriteExpand)
+            .present()
+            .dpl(Ring::Ring0)
+            .limit_granularity_4kb()
+            .db()
+            .l()
+            .finish();
 
     let code_user = DescriptorBuilder::code_descriptor(0, 0xFFFFF, CodeSegmentType::ExecuteRead)
         .present()
@@ -36,13 +37,14 @@ pub unsafe fn init() {
         .l()
         .finish();
 
-    let data_user = DescriptorBuilder::data_descriptor(0, 0xFFFFF, DataSegmentType::ReadWrite)
-        .present()
-        .limit_granularity_4kb()
-        .db()
-        .dpl(Ring::Ring3)
-        .l()
-        .finish();
+    let data_user =
+        DescriptorBuilder::data_descriptor(0, 0xFFFFF, DataSegmentType::ReadWriteExpand)
+            .present()
+            .limit_granularity_4kb()
+            .db()
+            .dpl(Ring::Ring3)
+            .l()
+            .finish();
 
     GDT[1] = code_kernel;
     GDT[2] = data_kernel;

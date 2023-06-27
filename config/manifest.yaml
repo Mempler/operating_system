@@ -20,26 +20,28 @@ qemu:
 
   drives:
   # BIOS
-  - interface: pflash
-    format: raw
-    file: "file://target/OVMF_CODE.fd"
-    readonly: true
+  #- interface: pflash
+  #  format: raw
+  #  file: "file://target/OVMF_CODE.fd"
+  #  readonly: true
 
-  - interface: pflash
-    format: raw
-    file: "file://target/OVMF_VARS.fd"
+  #- interface: pflash
+  #  format: raw
+  #  file: "file://target/OVMF_VARS.fd"
   
   # Boot disk
-  - interface: none
-    format: raw
-    file: "file://target/disk.img"
+  #- interface: none
+  #  format: raw
+  #  file: "file://target/disk.img"
 
   serial: tcp:127.0.0.1:8800,server
 
   extra_args: [
     "-d", "int",
     "-no-reboot",
+    "-no-shutdown",
     "-monitor", "mon:stdio",
+    "-cdrom", "target/cd.iso",
   ]
 
 disk:
@@ -64,3 +66,4 @@ disk:
       "/LIMINE.CFG":                       "file://config/boot/limine.cfg"
 
       "/SYSTEM/KERNEL.ELF":                "cargo://kernel?target=x86_64-unknown-none&profile=release"
+      "/SYSTEM/INIT.ELF":                  "cargo://userspace/init?target=x86_64-unknown-none&profile=release"

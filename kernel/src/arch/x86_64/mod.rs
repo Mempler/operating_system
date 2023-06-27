@@ -1,11 +1,15 @@
 use core::arch::asm;
 
+use alloc::{boxed::Box, vec::Vec};
 use limine::{LimineSmpInfo, LimineSmpRequest};
+use spin::Mutex;
 
+use crate::allocator;
+
+pub mod acpi;
 pub mod gdt;
 pub mod idt;
-
-static SMP_REQUEST: LimineSmpRequest = LimineSmpRequest::new(0);
+pub mod mmu;
 
 unsafe fn common_startup() {
     idt::disable();
@@ -18,17 +22,14 @@ unsafe fn common_startup() {
 
 #[no_mangle]
 extern "C" fn bsp_start() -> ! {
-    crate::pre_init();
+    klogger::init("trace", 0x3F8).unwrap();
 
     unsafe {
         common_startup();
     }
 
-    let smp_response = SMP_REQUEST.get_response().get_mut().unwrap();
-
-    for cpu in smp_response.cpus() {
-        cpu.goto_address = ap_start;
-    }
+    allocator::init();
+    mmu::init();
 
     info!("CPU - 0 (BSP) started");
 
@@ -38,10 +39,6 @@ extern "C" fn bsp_start() -> ! {
 #[no_mangle]
 extern "C" fn ap_start(info: *const LimineSmpInfo) -> ! {
     let info = unsafe { &*info };
-
-    unsafe {
-        common_startup();
-    }
 
     info!("CPU - {} (AP) started", info.processor_id);
 
